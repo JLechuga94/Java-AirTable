@@ -1,3 +1,19 @@
+/**
+ * TP  n°: 4 V n°: 1
+ * 
+ * Titre du TP: Jointure
+ * 
+ * Date: 16 novembre 2020
+ * 
+ * E1: Lechuga Lopez Leopoldo Julian
+ * E2: Morakhovski Alexander
+ * 
+ * email: julian.lechuga305@gmail.com 
+ * email: alexmorakhovski@gmail.com
+ *
+ * Remarques: TP4
+ */
+
 package mergeJoinAirTable;
 
 import java.net.*;
