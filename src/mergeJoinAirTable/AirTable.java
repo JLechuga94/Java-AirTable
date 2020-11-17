@@ -1,7 +1,7 @@
 /**
- * TP  n°: 4 V n°: 1
+ * TP  n°: 4 V n°: 2
  * 
- * Titre du TP: Jointure
+ * Titre du TP: Merge Join AirTable
  * 
  * Date: 16 novembre 2020
  * 
@@ -29,7 +29,7 @@ public class AirTable{
 	public static void main(String[] args, boolean newData) throws IOException {
 		if(newData) {
 			ArrayList<String> airTableRelations = new ArrayList<String>(
-					Arrays.asList("R","S", "RS", "A00", "A01", "A02", "A03", "A04", "A05","A06", 
+					Arrays.asList("RD","SD", "RSD", "A00", "A01", "A02", "A03", "A04", "A05","A06", 
 							"A07", "A08","A09", "B00", "B01", "B02", "B03", "B04",
 							"C00", "C01","C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09"));
 			
@@ -51,14 +51,14 @@ public class AirTable{
 			S = createRelation(charPairs, sizeS);
 			
 			clearAirTableData(airTableRelations);
-			sendAirTableData(R, "R");
-			sendAirTableData(S, "S");
+			sendAirTableData(R, "RD");
+			sendAirTableData(S, "SD");
 			System.out.println("\n******************** Finalized AirTable Data Management System ********************\n");
 		}
 		else 
 		{
 			ArrayList<String> mergedAirTableRelations = new ArrayList<String>(
-					Arrays.asList("RS", "C00", "C01","C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09"));
+					Arrays.asList("RSD", "C00", "C01","C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09"));
 			clearAirTableData(mergedAirTableRelations);
 			}
 		
@@ -124,9 +124,12 @@ public class AirTable{
 	 ***/
 	public static void sendAirTableData(ArrayList<String> relation, String relationName) throws IOException {
 		System.out.println("----- Sending new Data to AirTable -----\n");
+		
 		ArrayList<String> dataBloc = new ArrayList<String>();
-				
-		String blocName = "";
+		ArrayList<String> descriptor = new ArrayList<String>();	
+		String json = null;
+		
+		String blocName = null;
 		int counter = 0;
 		
 		while(relation.size() > 0) {
@@ -135,24 +138,27 @@ public class AirTable{
 				dataBloc.add(relation.remove(0));
 			}
 			
-			if(relationName == "R")
+			if(relationName == "RD")
 				blocName = "A0" +  Integer.toString(counter);
-			else if(relationName == "S")
+			else if(relationName == "SD")
 				blocName = "B0" +  Integer.toString(counter);
-			else if (relationName == "RS")
+			else if (relationName == "RSD")
 				blocName = "C0" +  Integer.toString(counter);
 			
-			String json = Parser.buildJSON(dataBloc);
-			
-			System.out.println(String.format("Sending relation: %s | Cells left to send: %d", relationName, relation.size()));
-			API.POST(json, relationName);
+			json = Parser.buildJSON(dataBloc);
 			
 			System.out.println(String.format("Sending bloc: %s of relation: %s", blocName, relationName));
 			API.POST(json, blocName);
 			
 			dataBloc.clear();
+			descriptor.add(Integer.toString(counter));
 			counter++;
 		}
+		
+		json = Parser.buildJSON(descriptor);
+		System.out.println(String.format("Sending descriptor: %s", relationName));
+		API.POST(json, relationName);
+		
 		System.out.println("----- Finished sending new Data to AirTable -----\n");
 	}
 
@@ -165,7 +171,7 @@ public class AirTable{
 				mergedData.addAll(rsBloc);
 			}
 		}
-		System.out.println("Data to be sent...");
+		System.out.println("Merged data");
 		System.out.println(mergedData + "\n");
 		return mergedData;
 	}

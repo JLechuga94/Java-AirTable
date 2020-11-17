@@ -1,7 +1,7 @@
 /**
- * TP  n°: 4 V n°: 1
+ * TP  n°: 4 V n°: 2
  * 
- * Titre du TP: Jointure
+ * Titre du TP: Merge Join AirTable
  * 
  * Date: 16 novembre 2020
  * 
@@ -50,14 +50,22 @@ public class Parser {
 		return json.toString();
 	}
 	
-	public static int[] parseValues(InputStream responseStream){
+	public static int[] parseValues(InputStream responseStream, boolean descriptor){
 		
 		String json = convertStreamToString(responseStream);
 		
 		ArrayList<String> values = getAllMatches(json, valueRgx);
+		int[] table = new int[values.size()];
 		
-		int[] table = stringArrayToASCIITable(values);
-        
+		if(!descriptor) {
+			table = stringArrayToASCIITable(values);
+		}
+		else {
+			for(int i = 0; i < values.size(); i++) {
+				table[i] = Integer.parseInt(values.get(i));  
+			}
+		}
+		        
         return table;
 	}
 	

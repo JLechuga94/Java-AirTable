@@ -1,7 +1,7 @@
 /**
- * TP  n°: 4 V n°: 1
+ * TP  n°: 4 V n°: 2
  * 
- * Titre du TP: Jointure
+ * Titre du TP: Merge Join AirTable
  * 
  * Date: 16 novembre 2020
  * 
@@ -25,37 +25,41 @@ public class Algorithm {
 	
 	// Storage size for output merged data
 	private static int storageSize = 10;
-	private static int RDSize = 10;
-	private static int SDSize = 5;
 	
 	public static void main(String[] args) throws IOException {
 		System.out.println("*************** Initialized Merge Operation ****************\n\n");
-		int[] RD = createDescriptor(RDSize);
-		int[] SD = createDescriptor(SDSize);
+		
+		boolean descriptor = true;
+		
+		InputStream responseStreamRD = API.GET("RD");
+		int[] RD = Parser.parseValues(responseStreamRD, descriptor);
+		
+		InputStream responseStreamSD = API.GET("SD");
+		int[] SD = Parser.parseValues(responseStreamSD, descriptor);
 		
 		/** With this Math.max() we ensure that we will have enough blocs in RS
-		 * to store all the merged elements. IN this way we don't have to double 
+		 * to store all the merged elements. In this way we don't have to double 
 		 * check inside the algorithm loops if we still have RS blocks left to
 		 * store information 
 		 **/
-		int[] RSD = createDescriptor(Math.max(RD.length, SD.length));
-		int[][] RS = innerLoopJoin(RD, SD, RSD);
+		int sizeRSD = Math.max(RD.length, SD.length);
+		int[][] RS = innerLoopJoin(RD, SD, sizeRSD);
 		
 		displayMergedData(RS);
 		System.out.println("\n****************** Finished Merge Operation ****************\n\n");
 		
 		System.out.println("\n************** Sending merged Data to AirTable *************\n");
 		ArrayList<String> mergedData = AirTable.transformMergeDataToArray(RS);
-		AirTable.sendAirTableData(mergedData, "RS");
+		AirTable.sendAirTableData(mergedData, "RSD");
 		System.out.println("\n*****************************************  Program terminated *****************************************\n");
 	}
 	
-	private static int[][] innerLoopJoin(int[] RD, int[] SD, int[] RSD) throws IOException {
+	private static int[][] innerLoopJoin(int[] RD, int[] SD, int sizeRSD) throws IOException {
 		
 		
 		int cell = 0;
 		int blocRSIndex = 0;
-		int[][] RS = new int[RSD.length][storageSize];
+		int[][] RS = new int[sizeRSD][storageSize];
 		
 		int i = 0;
 		while(i < RD.length) {
@@ -63,7 +67,7 @@ public class Algorithm {
 			//System.out.println("Block of R analyzed: A0"+ i + "\n");
 			
 			InputStream responseStreamR = API.GET("A0" + i);
-			int[] blocR = Parser.parseValues(responseStreamR);
+			int[] blocR = Parser.parseValues(responseStreamR, false);
 			System.out.println(String.format("------------------- Analyzing R bloc A0%d -------------------", i));
 			System.out.println(Arrays.toString(blocR));
 			System.out.println(spaceAdder(Parser.asciiTableToStringArray(blocR)) + "\n");
@@ -72,7 +76,7 @@ public class Algorithm {
 			while(j < SD.length) {
 				// Read block S
 				InputStream responseStreamS = API.GET("B0" + j);
-				int[] blocS = Parser.parseValues(responseStreamS);
+				int[] blocS = Parser.parseValues(responseStreamS, false);
 				
 				//Initialize row of bloc R
 				int k = 0;
@@ -107,15 +111,6 @@ public class Algorithm {
 			i++;
 		}
 		return RS;
-	}
-	
-	// Sets the number of blocs of R, S and RS available
-	private static int[] createDescriptor(int size) {
-		int[] descriptor = new int[size];
-		for(int i = 0; i < size; i++) {
-			descriptor[i] = i;
-		}
-		return descriptor;
 	}
 	
 	// Function only for visualization purposes during run of algorithm

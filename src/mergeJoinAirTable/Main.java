@@ -1,7 +1,7 @@
 /**
- * TP  n°: 4 V n°: 1
+ * TP  n°: 4 V n°: 2
  * 
- * Titre du TP: Jointure
+ * Titre du TP: Merge Join AirTable
  * 
  * Date: 16 novembre 2020
  * 
