@@ -101,7 +101,7 @@ public class API {
 		ArrayList<String> ids = Parser.parseIDs(responseStream);
 		
 		if(ids.size() > 0) {
-			System.out.println(String.format("\nTable: %s | # of ids to be deleted: %d", airTableName, ids.size()));
+			System.out.println(String.format("\nTable: %s | # of rows to be deleted: %d", airTableName, ids.size()));
 			//System.out.println(ids);
 			System.out.println("Deleting...");
 			for(int i = 0; i < ids.size(); i++) {

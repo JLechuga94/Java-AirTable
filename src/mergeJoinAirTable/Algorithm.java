@@ -27,35 +27,9 @@ public class Algorithm {
 	private static int storageSize = 10;
 	
 	public static void main(String[] args) throws IOException {
-		System.out.println("*************** Initialized Merge Operation ****************\n\n");
-		
-		boolean descriptor = true;
-		
-		InputStream responseStreamRD = API.GET("RD");
-		int[] RD = Parser.parseValues(responseStreamRD, descriptor);
-		
-		InputStream responseStreamSD = API.GET("SD");
-		int[] SD = Parser.parseValues(responseStreamSD, descriptor);
-		
-		/** With this Math.max() we ensure that we will have enough blocs in RS
-		 * to store all the merged elements. In this way we don't have to double 
-		 * check inside the algorithm loops if we still have RS blocks left to
-		 * store information 
-		 **/
-		int sizeRSD = Math.max(RD.length, SD.length);
-		int[][] RS = innerLoopJoin(RD, SD, sizeRSD);
-		
-		displayMergedData(RS);
-		System.out.println("\n****************** Finished Merge Operation ****************\n\n");
-		
-		System.out.println("\n************** Sending merged Data to AirTable *************\n");
-		ArrayList<String> mergedData = AirTable.transformMergeDataToArray(RS);
-		AirTable.sendAirTableData(mergedData, "RSD");
-		System.out.println("\n*****************************************  Program terminated *****************************************\n");
 	}
 	
-	private static int[][] innerLoopJoin(int[] RD, int[] SD, int sizeRSD) throws IOException {
-		
+	public static int[][] innerLoopJoin(int[] RD, int[] SD, int sizeRSD) throws IOException {
 		
 		int cell = 0;
 		int blocRSIndex = 0;
@@ -123,7 +97,7 @@ public class Algorithm {
 	}
 	
 	// Display of Merged Data after run of the algorithm
-	private static void displayMergedData(int[][] RS) {
+	public static void displayMergedData(int[][] RS) {
 		System.out.println("*******************  Merged Data  *******************\n");
 		for(int i = 0; i < RS.length; i++) {
 			if(Arrays.stream(RS[i]).sum() > 0) {

@@ -27,45 +27,10 @@ public class AirTable{
 	private static int sizeBloc = 10;
 	
 	public static void main(String[] args, boolean newData) throws IOException {
-		if(newData) {
-			ArrayList<String> airTableRelations = new ArrayList<String>(
-					Arrays.asList("RD","SD", "RSD", 
-							"A00", "A01", "A02", "A03", "A04", "A05","A06", "A07", "A08","A09", 
-							"B00", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09",
-							"C00", "C01","C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09"));
-			
-			System.out.println("******************** Initialized AirTable Data Management System ********************\n");
-			
-			String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			int alphabetSize1 = 26;
-			int alphabetSize2 = 8;
-			
-			ArrayList<String> charPairs = new ArrayList<String>();
-			ArrayList<String> R = new ArrayList<String>();
-			ArrayList<String> S = new ArrayList<String>();
-			
-			int sizeR = 96;
-			int sizeS = 46;
-			
-			charPairs = createCharPairs(alphabet, alphabetSize1, alphabetSize2);
-			R = createRelation(charPairs, sizeR);
-			S = createRelation(charPairs, sizeS);
-			
-			clearAirTableData(airTableRelations);
-			sendAirTableData(R, "RD");
-			sendAirTableData(S, "SD");
-			System.out.println("\n******************** Finalized AirTable Data Management System ********************\n");
-		}
-		else 
-		{
-			ArrayList<String> mergedAirTableRelations = new ArrayList<String>(
-					Arrays.asList("RSD", "C00", "C01","C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09"));
-			clearAirTableData(mergedAirTableRelations);
-			}
 		
-		}
+	}
 	
-	private static ArrayList<String> createCharPairs(String alphabet, int alphabetSize1, int alphabetSize2) {
+	public static ArrayList<String> createCharPairs(String alphabet, int alphabetSize1, int alphabetSize2) {
 		
 		String sigma1 = alphabet.substring(0, alphabetSize1);
 		String sigma2 = alphabet.substring(0, alphabetSize2);
@@ -88,7 +53,7 @@ public class AirTable{
 		return charPairs;
 	}
 	
-	private static ArrayList<String> createRelation(ArrayList<String> charPairs, int relationSize) {
+	public static ArrayList<String> createRelation(ArrayList<String> charPairs, int relationSize) {
 		
 		ArrayList<String> relation = new ArrayList<String>();
 		Random random = new java.util.Random();
@@ -110,7 +75,7 @@ public class AirTable{
 		return relation;
 	}
 
-	private static void clearAirTableData(ArrayList<String> airTableRelations) throws IOException {
+	public static void clearAirTableData(ArrayList<String> airTableRelations) throws IOException {
 		System.out.println("----- Clearing existing Data from AirTable -----");
 		String relation = null;
 		for(int i = 0; i < airTableRelations.size(); i++) {
