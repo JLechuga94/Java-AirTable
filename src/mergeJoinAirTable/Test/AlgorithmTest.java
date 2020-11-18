@@ -1,4 +1,4 @@
-package mergeJoinAirTable;
+package mergeJoinAirTable.Test;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import mergeJoinAirTable.Algorithm;
 
 public class AlgorithmTest {
 
