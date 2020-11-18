@@ -29,10 +29,6 @@ public class Parser {
 	
 	private static String valueRgx = "\"Value\":\"([^\"]*)\"";
 	private static String idRgx = "\"id\":\"([^\"]*)\"";
-
-	public static void main(String[] args) throws IOException {
-
-	}
 	
 	public static String buildJSON(ArrayList<String> relation) {
 		

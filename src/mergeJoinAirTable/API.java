@@ -26,9 +26,6 @@ public class API {
 	private static String urlBase = "https://api.airtable.com/v0/appc8HWCQkNG0gzVP/";
 	private static String apiKey = "Bearer keyiG1lq5KCAa4s5U";
 	
-	public static void main(String[] args) {
-	}
-	
 	public static InputStream GET(String airTableName) throws IOException {
 		// Create a neat value object to hold the URL
 		String urlString = urlBase + airTableName + "?view=Grid%20view";

@@ -26,9 +26,6 @@ public class Algorithm {
 	// Storage size for output merged data
 	private static int storageSize = 10;
 	
-	public static void main(String[] args) throws IOException {
-	}
-	
 	public static int[][] innerLoopJoin(int[] RD, int[] SD, int sizeRSD) throws IOException {
 		
 		int cell = 0;
@@ -38,7 +35,6 @@ public class Algorithm {
 		int i = 0;
 		while(i < RD.length) {
 			// Read block R
-			//System.out.println("Block of R analyzed: A0"+ i + "\n");
 			
 			InputStream responseStreamR = API.GET("A0" + i);
 			int[] blocR = Parser.parseValues(responseStreamR, false);
@@ -89,7 +85,7 @@ public class Algorithm {
 	
 	// Function only for visualization purposes during run of algorithm
 	// It displays the String value of each ASCII value below them
-	private static ArrayList<String> spaceAdder(ArrayList<String> relation){
+	public static ArrayList<String> spaceAdder(ArrayList<String> relation){
 		for(int i = 0; i < relation.size(); i++) {
 			relation.set(i, "  " + relation.get(i));
 		}
